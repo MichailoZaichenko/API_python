@@ -13,3 +13,25 @@ par = {
 }
 city = input('City: ')
 
+def current_weather(q: str = city, appid: str = API_KEY) -> dict:
+    try:
+        request = requests.get(URL, params=locals())
+        print(city)
+        data = request.json()
+        print('\/\/\/\/\/\/\/', end ='')
+        descript = data.get("weather")[0].get("description")
+        print(descript, end = '')
+        print('\/\/\/\/\/\/\/')
+
+        temp = data.get("main").get("temp")
+        temp = round(temp-273)
+        print(f"Температура {temp} °C")
+
+        hum = data.get("main").get("humidity")
+        print(f"Влажность", hum,"%")
+
+        wind_speed = data.get("wind").get("speed")
+        print('Скорость ветра', wind_speed, "m/s")
+    except TypeError:
+        print("Введите название города правильно!")
+current_weather()
